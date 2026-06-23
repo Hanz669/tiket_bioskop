@@ -37,18 +37,21 @@
                 <td class="px-5 py-4 border-b border-gray-200 text-sm">
                     @if($t->status == 'valid')
                         <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded-full border border-green-300">VALID</span>
+                    @elseif($t->status == 'scanned')
+                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded-full border border-blue-300">SCANNED</span>
                     @else
-                        <span class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-300">SCANNED</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full border border-gray-300">CANCELLED</span>
                     @endif
                 </td>
                 <td class="px-5 py-4 border-b border-gray-200 text-sm text-center space-x-3">
                     <a href="{{ route('tikets.show', $t->id) }}" class="text-indigo-600 hover:text-indigo-900 font-semibold">QR Code</a>
-                    <a href="{{ route('tikets.edit', $t->id) }}" class="text-amber-500 hover:text-amber-700 font-semibold">Edit</a>
-                    <form action="{{ route('tikets.destroy', $t->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin hapus tiket ini?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-red-500 hover:text-red-700 font-semibold">Hapus</button>
-                    </form>
+                    @if($t->status === 'valid')
+                        <form action="{{ route('tikets.cancel', $t->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin membatalkan tiket ini?');">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="text-gray-500 hover:text-gray-700 font-semibold mx-2">Batal</button>
+                        </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

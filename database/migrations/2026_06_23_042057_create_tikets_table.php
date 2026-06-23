@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('customer_name');
             $table->string('seat_number');
             $table->string('kode_tiket')->unique(); // Untuk di-generate jadi QR Code
-            $table->enum('status', ['valid', 'scanned'])->default('valid');
+            $table->enum('status', ['valid', 'scanned','cancelled'])->default('valid');
             $table->timestamps();
         });
     }
